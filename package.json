@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/drnoir/papyrus-ai-node#readme",
   "dependencies": {
+    "easy-speech": "^2.3.1",
     "http-server": "^14.1.1"
   }
 }

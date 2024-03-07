@@ -1,5 +1,6 @@
 // app.js
-
+import * as EasySpeech from 'easy-speech';
+EasySpeech.detect()
 // array for storing the dialogue data
 let dialogArr = [];
 
@@ -30,7 +31,6 @@ function nextDialogue() {
     const nextDialogue = dialogArr[currentIndex + 1];
     // Display the next dialogue
     return nextDialogue;
-    // alert(nextDialogue.text);
 }
 
 function generateMap(mapEntity) {
@@ -69,7 +69,52 @@ AFRAME.registerComponent('dialogue-display', {
 
     update: function () {
         this.el.setAttribute('text', 'value', this.data.text);
+        this.talk();
+    },
+
+    talk: async function() {
+        EasySpeech.init({ maxTimeout: 5000, interval: 250 })
+        .then(() => console.debug('load complete'))
+        .catch(e => console.error(e))
+
+        let nextDialogue = nextDialogue();
+
+        await EasySpeech.speak({
+            text: this.data.text,
+            voice: myLangVoice, // optional, will use a default or fallback
+            pitch: 1,
+            rate: 1,
+            volume: 1,
+            // there are more events, see the API for supported events
+            boundary: e => console.debug('boundary reached')
+          })
+        this.update(nextDialogue);
     }
 });
+
+AFRAME.registerComponent('trees', {
+    multiple: true,
+    schema: {
+        position: { type: 'string', default: '0 0.1 0' },
+        seed: { type: 'int', default: 20 }
+    },
+
+    init: function () {
+    data = this.data;
+    },
+
+    update: function () {
+        let tree = document.createElement('a-entity');
+        let randPos = '0 0.1 0'
+        for (let i = 0; i < 25; i++) {
+            randTreePos = Math.floor(Math.random() * this.data.seed) + 1;
+            randPos = Math.floor(Math.random() * this.data.seed) + ' 0.1 ' + Math.floor(Math.random() * this.data.seed);
+            tree.setAttribute('gltf-loader', '"url(tree.glb)"');
+            tree.setAttribute('position',  randPos);
+            this.el.appendChild(tree);  
+        }
+    }
+});
+
 
 
