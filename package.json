@@ -1,0 +1,30 @@
+{
+  "name": "papyrus-ai-node",
+  "version": "1.0.0",
+  "description": "Interactive fiction VR Generated with chat gpt",
+  "main": "app.js",
+  "scripts": {
+    "test": "test",
+    "start": "http-server -S -C cert.pem"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drnoir/papyrus-ai-node.git"
+  },
+  "keywords": [
+    "vr",
+    "webxr",
+    "webgl",
+    "AI",
+    "ChatGPT"
+  ],
+  "author": "chris godber",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drnoir/papyrus-ai-node/issues"
+  },
+  "homepage": "https://github.com/drnoir/papyrus-ai-node#readme",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
