@@ -1,11 +1,11 @@
 {
   "name": "papyrus-ai-node",
   "version": "1.0.0",
-  "description": "Interactive fiction VR Generated with chat gpt",
-  "main": "app.js",
+  "description": "Interactive fiction VR experience with AI chatbot",
+  "main": "server.js",
   "scripts": {
     "test": "test",
-    "start": "http-server -S -C cert.pem"
+    "start": "npm start"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,9 @@
   },
   "homepage": "https://github.com/drnoir/papyrus-ai-node#readme",
   "dependencies": {
+    "@drnoir/randgen-aframe": "^1.1.1",
+    "a-frame": "^0.0.0",
     "easy-speech": "^2.3.1",
-    "http-server": "^14.1.1"
+    "express": "^4.18.3"
   }
 }

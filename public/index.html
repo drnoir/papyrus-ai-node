@@ -1,0 +1,47 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Story</title>
+    <script src="app.js" type ='module' defer></script>
+</head>
+
+<body>
+    <a-scene>
+        <a-assets>
+            <img id="skyTexture" src="textures/sky.jpg">
+            <a-asset-item id="char" src="models/char.glb"></a-asset-item>
+            <a-asset-item id="tree" src="models/tree.glb"></a-asset-item>
+        </a-assets>
+        <!-- Map and text / model loading -->
+        <a-entity id="map">
+            <a-entity 
+                id="randGen"
+                    randgen=
+                    "minShapes:40;
+                    maxShapes:80;
+                    custumGlb:false;
+                    lights:true;
+                    randSeed:4;
+                    custumTexturesIDs:binary,brain,futurecity, lines,orbital,truth;
+                    custumModels:tree;"
+                    rotation="0 0 0"
+                    position="0 0 0"
+                    >
+                </a-entity>
+            <a-entity gltf-model="#char" position="-0.1 0 -1.5" scale ="5 5 5"></a-entity>
+            <a-entity text="value: Quoth the Raven, Nevermore!; color: white" position="0 1.5 -1" dialogue-display></a-entity>
+        </a-entity>
+        <!-- player -->
+        <a-entity id="player" camera look-controls position="0 1.5 0">
+            <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
+                geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: white; shader: flat">
+            </a-entity>
+            <a-entity id="sky" geometry="primitive: sphere; radius: 100"
+                material="src: #skyTexture; side: back"></a-entity>
+    </a-scene>
+</body>
+
+</html>
