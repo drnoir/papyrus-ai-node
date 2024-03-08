@@ -1,7 +1,7 @@
 {
-  "name": "papyrus-ai-node",
+  "name": "poe_vr",
   "version": "1.0.0",
-  "description": "Interactive fiction VR experience with AI chatbot",
+  "description": "Interactive fiction VR experience with dialogue",
   "main": "app.js",
   "scripts": {
     "test": "test",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/drnoir/papyrus-ai-node.git"
+    "url": "git+https://github.com/drnoir/poe_vr.git"
   },
   "keywords": [
     "vr",
@@ -21,11 +21,10 @@
   "author": "chris godber",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/drnoir/papyrus-ai-node/issues"
+    "url": "https://github.com/drnoir/poe_vr/issues"
   },
-  "homepage": "https://github.com/drnoir/papyrus-ai-node#readme",
+  "homepage": "https://github.com/drnoir/poe_vr#readme",
   "dependencies": {
-    "@drnoir/randgen-aframe": "^1.1.1",
     "aframe": "^1.5.0",
     "easy-speech": "^2.3.1",
     "express": "^4.18.3"
