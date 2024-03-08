@@ -15,12 +15,15 @@
         <a-assets>
             <img id="skyTexture" src="textures/sky.jpg">
             <a-asset-item id="char" src="models/char.glb"></a-asset-item>
-            <a-asset-item id="tree" src="models/tree.glb"></a-asset-item>
+            <a-asset-item id="blossom" src="models/blossom.glb"></a-asset-item>
+            <audio id="music" src="music.mp3"></audio>
         </a-assets>
         <!-- Map and text / model loading -->
-        <a-entity id="map">
+        <a-entity id="map" sound="src: url(music.mp3); autoplay: true">
             <a-entity gltf-model="#char" position="-0.1 0 -1.5" scale ="5 5 5" clickable></a-entity>
-            <a-entity id="textEntity" dialogue-display position="0 1.5 -1"></a-entity>
+            <a-entity id="text" text ="value: Hello I'm Poe the poet, what words can I say I wonder, to soothe your soul tonight? ; color: #FFF; width: 6"  position="0 3 -2"></a-entity>
+            <a-entity id="poe" position="0 1.5 -1" text="value: POE_VR ; color: #FFF; width: 6"></a-entity>
+            <a-entity id="blossom" position="-5 0 -5"  gltf-model="#blossom" scale = "15 15 15"></a-entity>
         </a-entity>
         <!-- player -->
         <a-entity id="player" camera look-controls position="0 1.5 0.2">
@@ -28,7 +31,7 @@
                 geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: white; shader: flat">
             </a-entity>
             <a-entity id="sky" geometry="primitive: sphere; radius: 100"
-                material="src: #skyTexture; side: back"></a-entity>
+                material="src: #skyTexture; side: double"></a-entity>
     </a-scene>
 </body>
 

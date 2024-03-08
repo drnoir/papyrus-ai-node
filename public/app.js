@@ -1,6 +1,10 @@
 // app.js   -   Main JavaScript file for the A-Frame application
-// voice config
-EasySpeech.detect()
+
+// Autoload a music file called music from A-Frame asset
+const audio = new Audio('sound/music.mp3');
+audio.autoplay = true;
+audio.volume = 0.5;
+audio.loop = true;
 
 // array for storing the dialogue data
 let dialogArr = [];
@@ -21,7 +25,6 @@ window.addEventListener('DOMContentLoaded', () => {
             // Example: Display the first dialogue
             const firstDialogue = dialogue[0];
             console.log(firstDialogue);
-            // alert(firstDialogue.text);
         })
         .catch(error => console.error('Error loading dialogue:', error));
 });
@@ -49,32 +52,26 @@ function generateMap(mapEntity) {
 
 // componenets 
 AFRAME.registerComponent('clickable', {
+    schema: {
+        text: { type: 'string', default: 'Hey' }
+    },
     init: function () {
         var el = this.el;
         el.addEventListener('click', function () {
             // Get the dialogue-display component and set its text
-            var textEntity = document.querySelector('#textEntity');
+            var textEntity = document.querySelector('#text');
             if (textEntity) {
-                textEntity.setAttribute('dialogue-display', {text: 'Quoth the Raven, Nevermore.'});
+               const poemText = document.getElementById('text');
+               poemText.setAttribute('value', {
+                    value: text,
+                });
+                dialogArr++;
+                // this.talk(text);
+
             } else {
                 console.error('Dialogue display component not found!');
             }
         });
-    }
-});
-
-AFRAME.registerComponent('dialogue-display', {
-    schema: {
-        text: { type: 'string', default: dialogArr[0] }
-    },
-
-    init: function () {
-        this.el.setAttribute('text', {
-            value: this.data.text,
-            color: 'white',
-            align: 'bottom'
-        });
-        this.talk(this.data.text);
     },
 
     update: function () {
@@ -86,34 +83,21 @@ AFRAME.registerComponent('dialogue-display', {
         const text = this.data.text;
         let myLangVoice = 'en-US';
 
-        EasySpeech.init({ maxTimeout: 5000, interval: 250 })
-        .then(() => console.debug('load complete'))
-        .catch(e => console.error(e))
+        EasySpeech.detect()
 
-        nextDialogue = nextDialogue();
+        EasySpeech.init({ maxTimeout: 5000, interval: 250 })
+            .then(() => console.debug('load complete'))
+            .catch(e => console.error(e))
 
         await EasySpeech.speak({
-            text: 'Hello to you',
-            voice: myLangVoice, // optional, will use a default or fallback
+            text: text,
+            voice:'en-US', // optional, will use a default or fallback
             pitch: 1,
             rate: 1,
             volume: 1,
             // there are more events, see the API for supported events
             boundary: e => console.debug('boundary reached')
-          })
-        this.update(nextDialogue);
+        })
+        // this.update(nextDialogue);
     }
 });
-
-function nextDialogue() {
-    // Get the current dialogue index
-    const currentIndex = 0;
-    // Get the next dialogue
-    let nextDialogue = dialogArr[currentIndex + 1];
-    // Display the next dialogue
-    return nextDialogue;
-}
-
-
-
-

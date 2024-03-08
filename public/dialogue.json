@@ -2,14 +2,26 @@
 [
     {
         "id": 1,
-        "text": "You find yourself in a mysterious forest. What do you do?"
+        "text": "I became insane, with long intervals of horrible sanity."
     },
     {
         "id": 2,
-        "text": "You encounter a strange creature blocking your path."
+        "text": "All that we see or seem is but a dream within a dream."
     },
     {
         "id": 3,
-        "text": "The creature speaks: 'Welcome traveler. I am the guardian of this forest.'"
+        "text": "We loved with a love that was more than love"
+    },
+    {
+        "id": 4,
+        "text": "Those who dream by day are cognizant of many things which escape those who dream only by night."
+    },
+    {
+        "id": 5,
+        "text": "I have great faith in fools - self-confidence my friends will call it."
+    },
+    {
+        "id": 6,
+        "text": "I was never really insane except upon occasions when my heart was touched."
     }
 ]
