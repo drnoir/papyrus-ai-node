@@ -1,13 +1,11 @@
 // app.js   -   Main JavaScript file for the A-Frame application
 // voice config
-import '@drnoir/randgen-aframe' from import.js;
-import EasySpeech from 'easy-speech';
-
 EasySpeech.detect()
-let myLangVoice = 'en-US';
+
 // array for storing the dialogue data
 let dialogArr = [];
-            
+EasySpeech.init()
+
 window.addEventListener('DOMContentLoaded', () => {
     // Load the map
     const map = document.getElementById('map');
@@ -27,15 +25,6 @@ window.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error loading dialogue:', error));
 });
-
-function nextDialogue() {
-    // Get the current dialogue index
-    const currentIndex = 0;
-    // Get the next dialogue
-    const nextDialogue = dialogArr[currentIndex + 1];
-    // Display the next dialogue
-    return nextDialogue;
-}
 
 function generateMap(mapEntity) {
     // Your code to generate the map goes here
@@ -58,6 +47,22 @@ function generateMap(mapEntity) {
     });
 }
 
+// componenets 
+AFRAME.registerComponent('clickable', {
+    init: function () {
+        var el = this.el;
+        el.addEventListener('click', function () {
+            // Get the dialogue-display component and set its text
+            var textEntity = document.querySelector('#textEntity');
+            if (textEntity) {
+                textEntity.setAttribute('dialogue-display', {text: 'Quoth the Raven, Nevermore.'});
+            } else {
+                console.error('Dialogue display component not found!');
+            }
+        });
+    }
+});
+
 AFRAME.registerComponent('dialogue-display', {
     schema: {
         text: { type: 'string', default: dialogArr[0] }
@@ -69,22 +74,26 @@ AFRAME.registerComponent('dialogue-display', {
             color: 'white',
             align: 'bottom'
         });
+        this.talk(this.data.text);
     },
 
     update: function () {
         this.el.setAttribute('text', 'value', this.data.text);
-        this.talk();
+        this.talk(this.data.text);
     },
 
     talk: async function() {
+        const text = this.data.text;
+        let myLangVoice = 'en-US';
+
         EasySpeech.init({ maxTimeout: 5000, interval: 250 })
         .then(() => console.debug('load complete'))
         .catch(e => console.error(e))
 
-        let nextDialogue = nextDialogue();
+        nextDialogue = nextDialogue();
 
         await EasySpeech.speak({
-            text: this.data.text,
+            text: 'Hello to you',
             voice: myLangVoice, // optional, will use a default or fallback
             pitch: 1,
             rate: 1,
@@ -96,29 +105,15 @@ AFRAME.registerComponent('dialogue-display', {
     }
 });
 
-AFRAME.registerComponent('trees', {
-    multiple: true,
-    schema: {
-        position: { type: 'string', default: '0 0.1 0' },
-        seed: { type: 'int', default: 20 }
-    },
+function nextDialogue() {
+    // Get the current dialogue index
+    const currentIndex = 0;
+    // Get the next dialogue
+    let nextDialogue = dialogArr[currentIndex + 1];
+    // Display the next dialogue
+    return nextDialogue;
+}
 
-    init: function () {
-    data = this.data;
-    },
-
-    update: function () {
-        let tree = document.createElement('a-entity');
-        let randPos = '0 0.1 0'
-        for (let i = 0; i < 25; i++) {
-            randTreePos = Math.floor(Math.random() * this.data.seed) + 1;
-            randPos = Math.floor(Math.random() * this.data.seed) + ' 0.1 ' + Math.floor(Math.random() * this.data.seed);
-            tree.setAttribute('gltf-loader', '"url(tree.glb)"');
-            tree.setAttribute('position',  randPos);
-            this.el.appendChild(tree);  
-        }
-    }
-});
 
 
 
