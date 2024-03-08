@@ -1,14 +1,17 @@
+// import EasySpeech from '../easy-speech-recognition'; // Add missing import statement
 // app.js   -   Main JavaScript file for the A-Frame application
 
 // Autoload a music file called music from A-Frame asset
 const audio = new Audio('sound/music.mp3');
 audio.autoplay = true;
-audio.volume = 0.5;
+audio.volume = 0.3;
 audio.loop = true;
 
 // array for storing the dialogue data
-let dialogArr = [];
-EasySpeech.init()
+let dialogArr=[]; let currentPoem = 0; let firstDialogue='Let Me Think a Minute...';
+
+EasySpeech.init(); // Uncomment this line
+EasySpeech.detect(); // Uncomment this line
 
 window.addEventListener('DOMContentLoaded', () => {
     // Load the map
@@ -19,19 +22,16 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('dialogue.json')
         .then(response => response.json())
         .then(dialogue => {
-            // Store the dialogue data
-            console.log(dialogue);
+            // Store the dialogue data in a variable
             dialogArr = dialogue;
             // Example: Display the first dialogue
-            const firstDialogue = dialogue[0];
-            console.log(firstDialogue);
+            firstDialogue = dialogue[0];
         })
         .catch(error => console.error('Error loading dialogue:', error));
 });
 
 function generateMap(mapEntity) {
     // Your code to generate the map goes here
-    // This is a placeholder for demonstration purposes
     // Assuming 'grass' is the path to your grass texture
     let grassTexture = 'textures/grass.jpg';
     let randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -50,54 +50,52 @@ function generateMap(mapEntity) {
     });
 }
 
-// componenets 
+// componenets for the poe
 AFRAME.registerComponent('clickable', {
     schema: {
-        text: { type: 'string', default: 'Hey' }
+        text: { type: 'string', default: '' }
     },
     init: function () {
         var el = this.el;
+        var data = this.data; // Access component data here
         el.addEventListener('click', function () {
             // Get the dialogue-display component and set its text
-            var textEntity = document.querySelector('#text');
-            if (textEntity) {
-               const poemText = document.getElementById('text');
-               poemText.setAttribute('value', {
-                    value: text,
-                });
-                dialogArr++;
-                // this.talk(text);
+            const poemText = document.querySelector('#text');
+            if (poemText) {
+                data.text = dialogArr[currentPoem].text || 'Let me think a minute...';
+                poemText.setAttribute('value', data.text); // Use data.text instead of this.text
+                console.log(data.text);
 
+                // move onto next poem
+                if (dialogArr.length > 0 && currentPoem < dialogArr.length - 1){
+                currentPoem++;
+                }else{
+                    currentPoem = 0;
+                }
+
+                EasySpeech.detect()
+                // needed for easy speech to work
+                const utterance = new SpeechSynthesisUtterance(data.text); // Use data.text instead of text
+                utterance.lang = 'en-US';
+                EasySpeech.init({ maxTimeout: 8000, interval: 250 })
+                    .then(() => console.debug('load complete'))
+                    .catch(e => console.error(e))
+
+                utterance.voiceURI = 'Microsoft Mark - English(United States)';
+
+                EasySpeech.speak({
+                    utterance: utterance,
+                    pitch: 1,
+                    rate: 1,
+                    volume: 1,
+                    // there are more events, see the API for supported events
+                    boundary: () => console.debug('boundary reached')
+                })
             } else {
                 console.error('Dialogue display component not found!');
             }
         });
     },
-
-    update: function () {
-        this.el.setAttribute('text', 'value', this.data.text);
-        this.talk(this.data.text);
-    },
-
-    talk: async function() {
-        const text = this.data.text;
-        let myLangVoice = 'en-US';
-
-        EasySpeech.detect()
-
-        EasySpeech.init({ maxTimeout: 5000, interval: 250 })
-            .then(() => console.debug('load complete'))
-            .catch(e => console.error(e))
-
-        await EasySpeech.speak({
-            text: text,
-            voice:'en-US', // optional, will use a default or fallback
-            pitch: 1,
-            rate: 1,
-            volume: 1,
-            // there are more events, see the API for supported events
-            boundary: e => console.debug('boundary reached')
-        })
-        // this.update(nextDialogue);
-    }
 });
+
+
