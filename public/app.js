@@ -58,6 +58,11 @@ AFRAME.registerComponent('clickable', {
     init: function () {
         var el = this.el;
         var data = this.data; // Access component data here
+        var character = document.querySelector('#char'); // Assuming your character's id is 'character'
+
+        // Set idle animation
+        character.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat'});
+
         el.addEventListener('click', function () {
             // Get the dialogue-display component and set its text
             const poemText = document.querySelector('#text');
@@ -65,6 +70,9 @@ AFRAME.registerComponent('clickable', {
                 data.text = dialogArr[currentPoem].text || 'Let me think a minute...';
                 poemText.setAttribute('value', data.text); // Use data.text instead of this.text
                 console.log(data.text);
+
+                // Set talking animation
+                character.setAttribute('animation-mixer', {clip: 'talk', loop: 'repeat'});
 
                 // move onto next poem
                 if (dialogArr.length > 0 && currentPoem < dialogArr.length - 1){
@@ -89,7 +97,11 @@ AFRAME.registerComponent('clickable', {
                     rate: 1,
                     volume: 1,
                     // there are more events, see the API for supported events
-                    boundary: () => console.debug('boundary reached')
+                    boundary: () => {
+                        console.debug('boundary reached');
+                        // Set idle animation again when speech ends
+                        character.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat'});
+                    }
                 })
             } else {
                 console.error('Dialogue display component not found!');
