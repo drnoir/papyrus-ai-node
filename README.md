@@ -6,7 +6,7 @@ A virtual Tribute to Poe from the series Altered Carbon
 
 The AI that was more human than most. 
 
-This demo allows you to interact with a virtual avater which recites poetry and quotes for Edgar Allan Poe,
+This demo allows you to interact with a virtual avater which recites poetry and quotes from Edgar Allan Poe,
 Gothic poet of the imagination. 
 
 ## Assets used with permission

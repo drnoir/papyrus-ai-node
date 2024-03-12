@@ -58,10 +58,10 @@ AFRAME.registerComponent('clickable', {
     init: function () {
         var el = this.el;
         var data = this.data; // Access component data here
-        var character = document.querySelector('#char'); // Assuming your character's id is 'character'
+        var character = document.querySelector('#char');
 
         // Set idle animation
-        character.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat'});
+        character.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', timeScale: '1.0'});
 
         el.addEventListener('click', function () {
             // Get the dialogue-display component and set its text
@@ -72,7 +72,7 @@ AFRAME.registerComponent('clickable', {
                 console.log(data.text);
 
                 // Set talking animation
-                character.setAttribute('animation-mixer', {clip: 'talk', loop: 'repeat'});
+                character.setAttribute('animation-mixer', {clip: 'talk', loop: 'once',timeScale: '4.0'});
 
                 // move onto next poem
                 if (dialogArr.length > 0 && currentPoem < dialogArr.length - 1){
